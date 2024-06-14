@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaos Analysis Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .result-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .analysis-info {
+            width: 45%;
+        }
+        .chart-container {
+            width: 45%;
+        }
+        .back-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Analysis Results for <%= targetUrl %></h1>
+        <div class="result-container">
+            <div class="analysis-info">
+                <h3>Chaos Type: <%= chaosType %></h3>
+                <p>Proxy running on port: <%= proxyPort %></p>
+                <p>This analysis applies the following chaos type:</p>
+                <% if (chaosType === 'latency') { %>
+                    <p>Latency: Introduces artificial delays to simulate network latency.</p>
+                <% } else if (chaosType === 'abort') { %>
+                    <p>Abort: Simulates abrupt connection termination.</p>
+                <% } else if (chaosType === 'slowRead') { %>
+                    <p>Slow Read: Slows down the data read speed from the server.</p>
+                <% } else if (chaosType === 'injectError') { %>
+                    <p>Inject Error: Injects server-side errors into responses.</p>
+                <% } %>
+                <h4>Details:</h4>
+                <ul>
+                    <% results.forEach(result => { %>
+                        <li>Request <%= result.request %>: <%= result.responseTime === 'error' ? 'Error' : result.responseTime + ' ms' %></li>
+                    <% }); %>
+                </ul>
+                <a href="/" class="btn btn-primary back-button"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            </div>
+            <% if (chaosType === 'latency') { %>
+            <div class="chart-container">
+                <canvas id="myChart" width="300" height="200"></canvas>
+            </div>
+            <% } %>
+        </div>
+        <% if (chaosType === 'latency') { %>
+        <script>
+            const results = <%- JSON.stringify(results) %>;
+            console.log(results); // JavaScript konsolunda verileri kontrol et
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const labels = results.map(result => `Request ${result.request}`);
+            const data = results.map(result => result.responseTime === 'error' ? null : result.responseTime);
+
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Response Time (ms)',
+                        data: data,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value === null ? 'Error' : value;
+                                }
+                            }
+                        }
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                const value = data.datasets[0].data[tooltipItem.index];
+                                return value === null ? 'Error' : `${value} ms`;
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+        <% } %>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    </div>
+</body>
+</html>

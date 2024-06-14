@@ -1,0 +1,7 @@
+npm init -y
+
+npm install express ejs body-parser chart.js
+
+npm install toxy
+
+npm i ngrok ,choco

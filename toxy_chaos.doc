@@ -1,0 +1,141 @@
+
+Tabii ki, aşağıda bu proje için kapsamlı bir doküman bulacaksınız. Bu doküman projenin ne olduğunu, nasıl çalıştığını, kaos türlerinin açıklamalarını, beklenen çıktıları ve kullanımı içerir.
+
+Chaos Engineering Simülasyon Projesi Dokümantasyonu
+İçindekiler
+Giriş
+Özellikler
+Kurulum
+Kullanım
+Kaos Türleri
+Latency
+Abort
+Slow Read
+Inject Error
+Beklenen Çıktılar
+Dosya ve Dizinler
+Katkıda Bulunma
+Lisans
+Giriş
+Bu proje, Node.js ve Toxy kütüphanesini kullanarak bir Chaos Engineering simülasyonu yapmayı amaçlamaktadır. Kullanıcıların belirli bir URL'ye farklı kaos senaryoları uygulayarak yanıt süreleri ve hata oranları üzerindeki etkilerini analiz etmelerine olanak tanır. Bu, bir sistemin çeşitli hata koşulları altında dayanıklılığını anlamaya yardımcı olur.
+
+Özellikler
+Farklı kaos türlerini simüle etme: Latency, Abort, Slow Read, Inject Error.
+Yanıt sürelerini ve hataları toplama ve görselleştirme.
+Sistemlerin çeşitli hata senaryolarına karşı dayanıklılığını analiz etme.
+Kurulum
+Depoyu klonlayın:
+
+bash
+Kodu kopyala
+git clone https://github.com/kullaniciadi/chaos-engineering-simulasyonu.git
+cd chaos-engineering-simulasyonu
+Bağımlılıkları yükleyin:
+
+bash
+Kodu kopyala
+npm install
+Kullanım
+Sunucuyu başlatın:
+
+bash
+Kodu kopyala
+node server.js
+Tarayıcınızı açın ve http://localhost:3000 adresine gidin.
+
+Hedef URL'yi girin ve uygulanacak bir kaos türü seçin.
+
+Sonuçları ve analizi sonuçlar sayfasında görüntüleyin.
+
+Kaos Türleri
+Latency
+Açıklama: Ağ gecikmelerini simüle etmek için yapay gecikmeler ekler.
+
+Beklenen Çıktı:
+
+Artan yanıt süreleri.
+Yanıt süreleri belirtilen minimum ve maksimum gecikme değerleri arasında değişir.
+Abort
+Açıklama: İsteklerin aniden kesilmesini simüle eder.
+
+Beklenen Çıktı:
+
+Tüm istekler hata ile sonuçlanır.
+Bu, bağlantının beklenmedik şekilde kapandığı senaryoları simüle eder.
+Slow Read
+Açıklama: Sunucudan gelen yanıt verilerini çok yavaş okur.
+
+Beklenen Çıktı:
+
+Artan yanıt süreleri.
+Veriler yavaşça okunarak, yavaş ağ koşulları simüle edilir.
+Inject Error
+Açıklama: Sunucu yanıtlarına hata ekler.
+
+Beklenen Çıktı:
+
+Tüm istekler sunucu hatası ile sonuçlanır (örneğin, HTTP 500).
+Bu, sunucuda beklenmedik hataların meydana geldiği senaryoları simüle eder.
+Beklenen Çıktılar
+Latency
+yaml
+Kodu kopyala
+Request 1: 2305 ms
+Request 2: 2381 ms
+Request 3: 2269 ms
+Request 4: 1451 ms
+Request 5: 2063 ms
+Request 6: 1582 ms
+Request 7: 2794 ms
+Request 8: 2810 ms
+Request 9: 1351 ms
+Request 10: 1142 ms
+Abort
+yaml
+Kodu kopyala
+Request 1: error
+Request 2: error
+Request 3: error
+Request 4: error
+Request 5: error
+Request 6: error
+Request 7: error
+Request 8: error
+Request 9: error
+Request 10: error
+Slow Read
+yaml
+Kodu kopyala
+Request 1: error
+Request 2: error
+Request 3: error
+Request 4: error
+Request 5: error
+Request 6: error
+Request 7: error
+Request 8: error
+Request 9: error
+Request 10: error
+Inject Error
+yaml
+Kodu kopyala
+Request 1: error
+Request 2: error
+Request 3: error
+Request 4: error
+Request 5: error
+Request 6: error
+Request 7: error
+Request 8: error
+Request 9: error
+Request 10: error
+Dosya ve Dizinler
+server.js: Sunucu ve kaos simülasyonu mantığını içeren ana dosya.
+views/index.ejs: Kullanıcıdan URL ve kaos türü bilgilerini alan giriş sayfası.
+views/results.ejs: Kaos türüne göre sonuçları ve grafikleri gösteren sonuçlar sayfası.
+public/: Statik dosyalar (CSS, JS, vb.) için dizin.
+Katkıda Bulunma
+Katkılar memnuniyetle karşılanır! Değişiklikler veya iyileştirmeler için bir issue açabilir veya pull request gönderebilirsiniz.
+
+Lisans
+Bu proje MIT Lisansı altında lisanslanmıştır.

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaos Engineering Simulation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .info-box {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Chaos Engineering Simulation</h1>
+        <form action="/analyze" method="POST">
+            <div class="form-group">
+                <label for="url">Target URL:</label>
+                <input type="url" class="form-control" id="url" name="url" placeholder="Enter target URL" required>
+            </div>
+            <div class="form-group">
+                <label for="chaosType">Select Chaos Type:</label>
+                <select class="form-control" id="chaosType" name="chaosType" onchange="showChaosInfo()" required>
+                    <option value="">Select a chaos type</option>
+                    <option value="latency">Latency</option>
+                    <option value="abort">Abort</option>
+                    <option value="slowRead">Slow Read</option>
+                    <option value="injectError">Inject Error</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Analyze</button>
+        </form>
+        <div id="chaosInfo" class="info-box" style="display:none;">
+            <h3 id="chaos-type-title"> Information</h3>
+            <p id="chaosDescription"></p>
+            <h4>Expected Output</h4>
+            <pre id="chaosOutput"></pre>
+        </div>
+    </div>
+    <script>
+        function showChaosInfo() {
+            const chaosType = document.getElementById('chaosType').value;
+            const chaosTypeTitle = document.getElementById('chaos-type-title');
+            const infoBox = document.getElementById('chaosInfo');
+            const description = document.getElementById('chaosDescription');
+            const output = document.getElementById('chaosOutput');
+
+            const chaosInfo = {
+                latency: {
+                    title:"About Latecy",
+                    description: 'Latency: Introduces artificial delays to simulate network latency.',
+                    output: `Request 1: 2305 ms\nRequest 2: 2381 ms\nRequest 3: 2269 ms\nRequest 4: 1451 ms\nRequest 5: 2063 ms\nRequest 6: 1582 ms\nRequest 7: 2794 ms\nRequest 8: 2810 ms\nRequest 9: 1351 ms\nRequest 10: 1142 ms`
+                },
+                abort: {
+                    title:"About Abort",
+                    description: 'Abort: Simulates abrupt connection termination.',
+                    output: `Request 1: error\nRequest 2: error\nRequest 3: error\nRequest 4: error\nRequest 5: error\nRequest 6: error\nRequest 7: error\nRequest 8: error\nRequest 9: error\nRequest 10: error`
+                },
+                slowRead: {
+                    title:"About Slow Read",
+                    description: 'Slow Read: Slows down the data read speed from the server.',
+                    output: `Request 1: error\nRequest 2: error\nRequest 3: error\nRequest 4: error\nRequest 5: error\nRequest 6: error\nRequest 7: error\nRequest 8: error\nRequest 9: error\nRequest 10: error`
+                },
+                injectError: {
+                    title:"About İnject Error",
+                    description: 'Inject Error: Injects server-side errors into responses.',
+                    output: `Request 1: error\nRequest 2: error\nRequest 3: error\nRequest 4: error\nRequest 5: error\nRequest 6: error\nRequest 7: error\nRequest 8: error\nRequest 9: error\nRequest 10: error`
+                }
+            };
+
+            if (chaosType) {
+                chaosTypeTitle.textContent = chaosInfo[chaosType].title;
+                description.textContent = chaosInfo[chaosType].description;
+                output.textContent = chaosInfo[chaosType].output;
+                infoBox.style.display = 'block';
+            } else {
+                infoBox.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
