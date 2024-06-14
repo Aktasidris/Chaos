@@ -21,9 +21,11 @@
             margin-top: 20px;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="container">
+        <a href="/" class="btn btn-primary back-button"><i class="fas fa-arrow-left"></i> Back to home</a>
         <h1 class="mt-5">Analysis Results for <%= targetUrl %></h1>
         <div class="result-container">
             <div class="analysis-info">
@@ -45,7 +47,6 @@
                         <li>Request <%= result.request %>: <%= result.responseTime === 'error' ? 'Error' : result.responseTime + ' ms' %></li>
                     <% }); %>
                 </ul>
-                <a href="/" class="btn btn-primary back-button"><i class="fas fa-arrow-left"></i> Back to Home</a>
             </div>
             <% if (chaosType === 'latency') { %>
             <div class="chart-container">
@@ -54,45 +55,8 @@
             <% } %>
         </div>
         <% if (chaosType === 'latency') { %>
-        <script>
-            const results = <%- JSON.stringify(results) %>;
-            console.log(results); // JavaScript konsolunda verileri kontrol et
-            const ctx = document.getElementById('myChart').getContext('2d');
-            const labels = results.map(result => `Request ${result.request}`);
-            const data = results.map(result => result.responseTime === 'error' ? null : result.responseTime);
-
-            const myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Response Time (ms)',
-                        data: data,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return value === null ? 'Error' : value;
-                                }
-                            }
-                        }
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function(tooltipItem, data) {
-                                const value = data.datasets[0].data[tooltipItem.index];
-                                return value === null ? 'Error' : `${value} ms`;
-                            }
-                        }
-                    }
-                }
-            });
+        <script type="text/script" src="/js/result.js">
+          
         </script>
         <% } %>
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
