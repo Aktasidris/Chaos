@@ -28,7 +28,7 @@ This project is a Chaos Engineering simulation using Node.js and Toxy library. I
 1. Start the server:
 
     ```bash
-    node server.js
+    node app.js
     ```
 
 2. Open your browser and navigate to `http://localhost:3000`.
